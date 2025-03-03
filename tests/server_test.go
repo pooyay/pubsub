@@ -1,13 +1,14 @@
-package server_test
+package pubsub_test
 
 import (
-	"pubsub/internal/server"
 	"testing"
 	"time"
+
+	"github.com/pooyay/pubsub"
 )
 
 func TestPublishSubscribe(t *testing.T) {
-	s := server.NewServer()
+	s := pubsub.NewServer()
 	defer s.Close()
 
 	sub := s.Subscribe("food")
@@ -24,7 +25,7 @@ func TestPublishSubscribe(t *testing.T) {
 }
 
 func TestClosedServerDoesNotPublish(t *testing.T) {
-	s := server.NewServer()
+	s := pubsub.NewServer()
 	sub := s.Subscribe("sports")
 	s.Close()
 
@@ -38,7 +39,7 @@ func TestClosedServerDoesNotPublish(t *testing.T) {
 }
 
 func TestMultipleSubscribers(t *testing.T) {
-	s := server.NewServer()
+	s := pubsub.NewServer()
 	defer s.Close()
 
 	sub1 := s.Subscribe("news")
@@ -66,7 +67,7 @@ func TestMultipleSubscribers(t *testing.T) {
 }
 
 func TestMessageOrder(t *testing.T) {
-	s := server.NewServer()
+	s := pubsub.NewServer()
 	defer s.Close()
 
 	sub := s.Subscribe("chat")
